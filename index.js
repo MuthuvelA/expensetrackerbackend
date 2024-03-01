@@ -48,24 +48,32 @@ app.get("/todos", async(req,res) => {
     // .then((json) => res.json(json));
 
     //asynchronous function
+    //exception handling (running on offline) 503 - Service Unavailable
+    try{
     const response = await fetch("https://jsonplaceholder.typicode.com/todos")
     const todos = await response.json();
     res.json(todos);
+    }
+    catch(error){
+        res.status(503).json({
+            error:'API Call Failed',
+        });
+    }
 
 
 } );
 
 
-//     /hi, /todos, /1 resources in Rest Terms
-// app.get("/todos/2", async (req,res) => {
-//     const response = await fetch("https://jsonplaceholder.typicode.com/todos/2")
-//     const todos = await response.json();
-//     res.json(todos);
-// })
+///hi, /todos, /1 resources in Rest Terms
+app.get("/todos/2", async (req,res) => {
+    const response = await fetch("https://jsonplaceholder.typicode.com/todos/2")
+    const todos = await response.json();
+    res.json(todos);
+})
 
 app.get("/todos/:id", async (req,res) => {
     const {id : totoId} = req.params;
-    res.json(totoId)
+    res.status(400).json({totoId})
 })
 
 
