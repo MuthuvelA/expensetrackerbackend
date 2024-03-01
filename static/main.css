@@ -37,9 +37,10 @@
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 6px;
+    border-radius: 4px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     transition: border-color 0.3s ease;
+    
   }
   
   .form-group input:focus,
