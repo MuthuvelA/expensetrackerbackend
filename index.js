@@ -41,7 +41,7 @@ app.use(bodyParser.urlencoded({extended : true})) // form data
 //          });
 // });
 
-// calling external API  --> API call
+// calling external 3rd Party API  --> API call
 app.get("/todos", async(req,res) => {
     // fetch("https://jsonplaceholder.typicode.com/todos").
     // then((response) => response.json())
@@ -55,6 +55,18 @@ app.get("/todos", async(req,res) => {
 
 } );
 
+
+//     /hi, /todos, /1 resources in Rest Terms
+// app.get("/todos/2", async (req,res) => {
+//     const response = await fetch("https://jsonplaceholder.typicode.com/todos/2")
+//     const todos = await response.json();
+//     res.json(todos);
+// })
+
+app.get("/todos/:id", async (req,res) => {
+    const {id : totoId} = req.params;
+    res.json(totoId)
+})
 
 
 
