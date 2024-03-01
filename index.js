@@ -65,16 +65,36 @@ app.get("/todos", async(req,res) => {
 
 
 ///hi, /todos, /1 resources in Rest Terms
-app.get("/todos/2", async (req,res) => {
-    const response = await fetch("https://jsonplaceholder.typicode.com/todos/2")
-    const todos = await response.json();
-    res.json(todos);
-})
+// app.get("/todos/2", async (req,res) => {
+//     const response = await fetch("https://jsonplaceholder.typicode.com/todos/2")
+//     const todos = await response.json();
+//     res.json(todos);
+// })
+app.get("/todos/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const response = await fetch("https://jsonplaceholder.typicode.com/todos/");
+        const todos = await response.json();
+        const filteredData = todos.filter(todo =>
+            todo.id == id
+        );
 
-app.get("/todos/:id", async (req,res) => {
-    const {id : totoId} = req.params;
-    res.status(400).json({totoId})
-})
+        if (filteredData.length === 0) {
+            res.status(404).json({ error: "Data not found" });
+        } else {
+            console.log(filteredData);
+            res.json(filteredData);
+        }
+    } catch (error) {
+        res.status(500).json({ error: "An error occurred" });
+    }
+});
+
+
+// app.get("/todos/:id", async (req,res) => {
+//     const {id : totoId} = req.params;
+//     res.status(400).json({totoId})
+// })
 
 //wildcard endpoint
 app.get("*",(req,res) => {
