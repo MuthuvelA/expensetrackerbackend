@@ -14,10 +14,10 @@ app.use(bodyParser.urlencoded({extended : true})) // form data
     // Path: /hi
     // ?phone=7 key=value
 
-app.get("/hi", (req, res) => {
-    console.log(req.query)
-    res.json(req.query)
-});
+// app.get("/hi", (req, res) => {
+//     console.log(req.query)
+//     res.json(req.query)
+// });
 
     // res.json({
     //     name:req.query.name,            ...req.query          ...  -> spread operator      it will atuomate for further values
@@ -30,20 +30,32 @@ app.get("/hi", (req, res) => {
 
 
 
-app.post("/hi", (req, res) => {
+// app.post("/hi", (req, res) => {
 
-    console.log(req.body)
-    res.json({
-        name:req.body.name,
-        description: req.body.description,
-        date: req.body.date,
-        amount:req.body.amount,
-         });
-});
+//     console.log(req.body)
+//     res.json({
+//         name:req.body.name,
+//         description: req.body.description,
+//         date: req.body.date,
+//         amount:req.body.amount,
+//          });
+// });
 
-// app.get("/todos",(req,res) => {
-//     fetch()
-// } )
+// calling external API  --> API call
+app.get("/todos", async(req,res) => {
+    // fetch("https://jsonplaceholder.typicode.com/todos").
+    // then((response) => response.json())
+    // .then((json) => res.json(json));
+
+    //asynchronous function
+    const response = await fetch("https://jsonplaceholder.typicode.com/todos")
+    const todos = await response.json();
+    res.json(todos);
+
+
+} );
+
+
 
 
 app.listen(8000, () =>{
