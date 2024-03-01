@@ -76,6 +76,10 @@ app.get("/todos/:id", async (req,res) => {
     res.status(400).json({totoId})
 })
 
+//wildcard endpoint
+app.get("*",(req,res) => {
+    res.json({});
+})
 
 
 app.listen(8000, () =>{
