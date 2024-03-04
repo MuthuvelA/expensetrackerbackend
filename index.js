@@ -1,12 +1,27 @@
 const express = require('express')
 const app = express()
 
+const mongoose = require('mongoose')
+const Author = require('./models/author')
+
 const static = express.static("static")
 app.use("/",static)
 
 var bodyParser = require('body-parser')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended : true})) // form data
+
+//mongodb connectivity
+mongoose.connect('mongodb://127.0.0.1:27017/blogs').
+ then(() => console.log("DB Connected"))
+  .catch(() => console.log("Db Connection failed"));
+
+
+
+console.log(Author.find({}).then(
+    (data) => console.log(data)
+))
+
 
 //http://127.0.0.1:8000/hi?phone=7
     // Host: 127.0.0.1 --> local host
