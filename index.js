@@ -16,12 +16,38 @@ mongoose.connect('mongodb://127.0.0.1:27017/blogs').
  then(() => console.log("DB Connected"))
   .catch(() => console.log("Db Connection failed"));
 
+// const author = new Author({
+//     name: Math.random.toString(),
+//     email: Math.random().toString(),
+// });
 
+// author.save().then(() =>  console.log("Author Created"))
 
-console.log(Author.find({}).then(
-    (data) => console.log(data)
-))
+// console.log(Author.find({}).then(
+//     (data) => console.log(data)
+// ))
 
+app.post("/authors", async (req, res) => {
+    try {
+        const { name, email } = req.body;
+
+        const newAuthor = new Author({
+            name: name,
+            email: email,
+        });
+
+        await newAuthor.save();
+
+        res.status(201).json(newAuthor); 
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to save author to database' });
+    }
+});
+
+// author.save().then((data) =>   res.static(201).json(data)).catch((error) => rs.json({
+//     error: error.message,
+// }));
 
 //http://127.0.0.1:8000/hi?phone=7
     // Host: 127.0.0.1 --> local host

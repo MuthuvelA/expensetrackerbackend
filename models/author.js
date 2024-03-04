@@ -5,10 +5,14 @@ const Schema = mongoose.Schema;
 const Author = new Schema ({
     name: String,
     email: String,
-    phone: String
+    phone: Number
 
+// },{
+//     versionKey : 1,
+    
+// }
 });
 
 const author = mongoose.model('author',Author)
 
-module.exports = author
+module.exports = author     //mongoose.model()
