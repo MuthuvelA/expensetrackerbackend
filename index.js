@@ -8,6 +8,7 @@ const static = express.static("static")
 app.use("/",static)
 
 var bodyParser = require('body-parser')
+const author = require('./models/author')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended : true})) // form data
 
@@ -45,9 +46,71 @@ app.post("/authors", async (req, res) => {
     }
 });
 
+// app.post('/authors/:id',async(req,res) => {
+//     const { id } = req.params;
+//     const author = await Author.findById(id);
+//     author.name = ;
+//     await author.save();
+//     res.json(author)
+// })
+app.put('/authors/:id', async (req, res) => {
+    const { id } = req.params;
+    const {name,email} = req.body;
+
+    try {
+        const author = await Author.findById(id);
+
+        if (!author) {
+            return res.status(404).json({ error: "Author not found" });
+        }
+
+        // if (req.body.name) {
+        //     author.name = req.body.name;
+        //     author.email = req.body.email;
+        // }
+
+        // await author.save();
+
+        // res.json(author);
+
+        author.name = name ?  name : author.name;
+        author.email = email ? email : author.email;
+        await author.save()
+        res.json(author)
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to update author' });
+    }
+});
+
+app.get("/authors", async(req,res) => {
+    const authors = await Author.find({})
+    res.json(authors)
+} )
+
+app.get("/authors/:id",async (req,res) => {
+    const {id} = req.params;
+    const author = await Author.findById(id)
+    res.json(author)
+})
+
+
+
+
+
+
 // author.save().then((data) =>   res.static(201).json(data)).catch((error) => rs.json({
 //     error: error.message,
 // }));
+
+
+
+
+
+
+
+
 
 //http://127.0.0.1:8000/hi?phone=7
     // Host: 127.0.0.1 --> local host
@@ -136,6 +199,13 @@ app.get("/todos/:id", async (req, res) => {
 //     const {id : totoId} = req.params;
 //     res.status(400).json({totoId})
 // })
+
+
+
+
+
+
+
 
 //wildcard endpoint
 app.get("*",(req,res) => {
